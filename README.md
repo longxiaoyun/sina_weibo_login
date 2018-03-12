@@ -1,3 +1,5 @@
+首先九宫格手势验证码，共有24中可能，把这24种可能的图片全都保存下来，进行模型训练。
+模型由好基友Bigcat实现(GitHub地址 https://github.com/zepen) 
 1. process_picture.py 将图片处理成数据矩阵，保存在train_data文件夹当中；
 2. train_model.py 加载train_data当中的数据训练模型，模型提供了 LR和 MLP两种模型，
    基于数据样本少于特征数，采用LR来训练模型进行分类，这部分为离线操作不参与主程序调用，
@@ -7,3 +9,4 @@
    image_identification(image, model_type)
    调用上述函数即可返回预测类别，但是要注意参数，image这里为传入的jpg文件，model_type见函数。
    m_dict为一个图片类别和图片命名的一个字典，将其映射起来，方便查看。 
+4. login_weibo.py 训练好模型后，执行登录脚本，需要一个微博帐号和密码。
