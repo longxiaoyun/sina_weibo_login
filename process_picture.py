@@ -4,17 +4,17 @@ from PIL import Image
 
 
 def obtain_one_picture(image):
-    """ obtain one picture vector from piuture
+    """ obtain one picture vector from picture
 
     :param image: read image from img file
     :return: one picture vector
     """
-    im = None
-    try:
-        im = Image.open(image)
-    except Exception as e:
-        print(e)
-    mat = np.array(im)
+    if isinstance(image, str):
+        try:
+            image = Image.open(image)
+        except Exception as e:
+            print(e)
+    mat = np.array(image)
     # remove background
     mat[mat >= 200] = 0
     mat[mat > 0] = 1
