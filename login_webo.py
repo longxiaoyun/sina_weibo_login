@@ -25,12 +25,6 @@ sys.setdefaultencoding("utf-8")
 
 
 
-
-#微博帐号
-myWeiBo = [
-    ('username', 'password')
-]
-
 def image_identification(image, model_type):
     """
     :param: image
@@ -173,19 +167,6 @@ def my_default_get_cookie_from_weibo(account, password):
             except Exception as e:
                 pass
 
-            # attempts = 0
-            # success = False
-            # while attempts < 6 and not success:
-            #     try:
-            #         if driver.find_element_by_id('patternCaptchaHolder'):
-            #             ttype=getType(driver) #识别轨迹路径
-            #             draw(driver, ttype)#滑动破解
-            #         success = True
-            #     except:
-            #         attempts += 1
-            #         if attempts == 3:
-            #             break
-
 
             # 等待手动通过验证码(很智能，I like)
             WebDriverWait(driver, 30).until(
@@ -215,52 +196,6 @@ def my_default_get_cookie_from_weibo(account, password):
             logging.error(e)
             pass
 
-#获取cookies
-def getCookie(account, password):
-    return my_default_get_cookie_from_weibo(account, password)
-
-
-
-def initCookie(rconn, spiderName):
-    """ 获取所有账号的Cookies，存入Redis。如果Redis已有该账号的Cookie，则不再获取。 """
-    for weibo in myWeiBo:
-        if rconn.get("%s:Cookies:%s--%s" % (spiderName, weibo[0], weibo[1])) is None:  # 'SinaSpider:Cookies:账号--密码'，为None即不存在。
-            cookie = getCookie(weibo[0], weibo[1])
-            if len(cookie) > 0:
-                rconn.set("%s:Cookies:%s--%s" % (spiderName, weibo[0], weibo[1]), cookie)
-
-                print("%s:Cookies:%s--%s" % (spiderName, weibo[0], weibo[1]), cookie)
-    print('%s' %key for key in rconn.keys())
-    cookieNum = "".join('%s' %key for key in rconn.keys()).count("SinaSpider:Cookies")
-    logging.warning("The num of the cookies is %s" % cookieNum)
-    if cookieNum == 0:
-        logging.warning('Stopping...')
-        os.system("pause")
-
-
-def updateCookie(accountText, rconn, spiderName):
-    """ 更新一个账号的Cookie """
-    account = accountText.split("--")[0]
-    password = accountText.split("--")[1]
-    cookie = getCookie(account, password)
-    if len(cookie) > 0:
-        logging.warning("The cookie of %s has been updated successfully!" % account)
-        rconn.set("%s:Cookies:%s" % (spiderName, accountText), cookie)
-    else:
-        logging.warning("The cookie of %s updated failed! Remove it!" % accountText)
-        removeCookie(accountText, rconn, spiderName)
-
-
-def removeCookie(accountText, rconn, spiderName):
-    """ 删除某个账号的Cookie """
-    rconn.delete("%s:Cookies:%s" % (spiderName, accountText))
-    cookieNum = "".join(rconn.keys()).count("SinaSpider:Cookies")
-    logging.warning("The num of the cookies left is %s" % cookieNum)
-    if cookieNum == 0:
-        logging.warning("Stopping...")
-        os.system("pause")
-
-
 
 if __name__ == '__main__':
-    my_default_get_cookie_from_weibo('15211452000', 'rkalpq227')
+    my_default_get_cookie_from_weibo('username', 'password')
