@@ -46,7 +46,7 @@ def show_model(clr, y_data):
 
 if __name__ == '__main__':
     # load data
-    x_data = np.load("train_data/x_data.npy")
-    y_data = np.load("train_data/y_data.npy")
-    model = train_model(x_data, y_data, "lr")
-    show_model(model, y_data)
+    x_train = np.load("train_data/x_data.npy")
+    y_train = np.load("train_data/y_data.npy")
+    model = train_model(x_train, y_train, "lr")
+    show_model(model, y_train)
